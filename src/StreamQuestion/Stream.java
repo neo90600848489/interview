@@ -2,6 +2,8 @@ package StreamQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 class Employee {
     String firstName;
@@ -29,8 +31,18 @@ class Employee {
      public void setFirstName(String firstName) {
          this.firstName = firstName;
      }
+    public static Employee withUpperCaseFirstName(Employee employee) {
+        employee.setFirstName(employee.getFirstName().toUpperCase());
+        return  employee;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", age=" + age +
+                '}';
+    }
 
 }
 public class Stream {
@@ -90,10 +102,25 @@ public class Stream {
         employeeList.add(new Employee("Jeffrey", 61));
 
         // all stream function
+        // map
+        List<Employee> employeesWithUpperCaseNames1 = employeeList.stream()
+                .map(employee -> {
+                    employee.setFirstName(employee.getFirstName().toUpperCase());
+                   return  employee;
+                })
+                .collect(Collectors.toList());
 
 
 
+        List<Employee> employeesWithUpperCaseNames2 = employeeList.stream()
+                .map(Employee::withUpperCaseFirstName)
+                .collect(Collectors.toList());
 
+
+
+        System.out.println(employeesWithUpperCaseNames1.equals(employeesWithUpperCaseNames2));
+
+    //    System.out.println(employeesWithUpperCaseNames1.equals(employeesWithUpperCaseNames2));
     }
 
 }
